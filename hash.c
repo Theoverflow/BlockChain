@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <memory.h>
-
+#include "hash.h"
 
 
 /****************************** MACROS ******************************/

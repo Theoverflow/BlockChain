@@ -1,12 +1,12 @@
 /*********************************************************************************
-A graph is defined by:
-- Number of nodes
-- Array of pointers, containing the addresses of the successor lists of graph nodes
+A Blockchain is defined by:
+- Number of Blocks
+- Array of pointers, containing the addresses of the successor lists of Blockchain Blocks
 *********************************************************************************/
 
-#ifndef GRAPH_H
+#ifndef BLOCKCHAIN_H
 
-#define GRAPH_H
+#define BLOCKCHAIN_H
 
 
 #include <stdio.h>
@@ -16,20 +16,22 @@ A graph is defined by:
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
-#include "hash.h"
+
 
 
 
 typedef struct _transaction {
   char* dest;
   char* rep;
+  char* signature;
+  char* hash;
   int montant;
 } Transaction;
 
-typedef struct _node
+typedef struct _Block
 {
 	int index;
-  int nonce;
+  long nonce;
   int nb_trans;
   char* author;
 	time_t timestamp;
@@ -37,35 +39,43 @@ typedef struct _node
 	char* hash;
   char* previousHash;
   Transaction* trans;
-	struct _node* successor;
-} Node;
+	struct _Block* successor;
+} Block;
 
 typedef struct
 {
-	int nb_nodes;
+	int nb_Blocks;
   int difficult;
   int reward;
   int nb_trans;
+  char* condition;
   Transaction* transEnAtt;
-	Node* first;
-} Graph;
+	Block* first;
+} Blockchain;
 
 /////////////////////////////////////////////////
 
-void initBC(Graph* G);
-void afficherBC(Graph* G);
-void ajouterBlock(Graph* G);
-void menu(Graph* G);
-char* calculateHash(Node* s);
-bool blocChainValide(Graph* G);
-void estValide(Graph* G);
-void modifierBloc(Graph* G);
-char* afficheTimestamp(time_t tim);
-void proofOfWorkBC(Graph* G, Node* s, int difficult, char c);
-char* subString(char *hash, int pos, int len);
-void miningTransaction(Graph* G);
-void creerTransaction(Graph* G);
-void compteBloc(Graph* G);
+void initBC(Blockchain* G);
+void ajouterBlock(Blockchain* G);
+void modifierBloc(Blockchain* G);
+char* calculateHash(Block* s);
+void proofOfWorkBC(Block* s, int difficult, char* c);
+bool blockChainValide(Blockchain* G);
+void estValide(Blockchain* G);
+void creerTransaction(Blockchain* G);
+void miningTransaction(Blockchain* G);
+void compteBloc(Blockchain* G);
+void modifierTransaction(Blockchain* G, Block* s);
+void signTransaction(Transaction* trans, char* signingKey);
+bool transactionValide(Transaction trans);
+bool blockVerifyTransaction(Block* s);
+char* getFromPublic(char* from);
+bool verifyKey(Transaction trans, char* key);
+void menu(Blockchain* G);
 
+char* subString(char *hash, int pos, int len);
+char* afficheTimestamp(time_t tim);
+void afficherBC(Blockchain* G);
+void afficherNom(Blockchain* G);
 
 #endif
