@@ -10,4 +10,3 @@ all : $(EXEC)
 
 $(EXEC) : $(OBJ)
 	$(CC) -o $(EXEC) $^
-	
