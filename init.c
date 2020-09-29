@@ -1,5 +1,8 @@
 #include <stdio.h>
+#include "blockChain.h"
 int main(void){
-  printf("coucou\n");
-  return0;
+  Blockchain BC;
+  initBC(&BC);
+  menu(&BC);
+  return 0;
 }
